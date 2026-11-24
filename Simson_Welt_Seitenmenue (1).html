@@ -1,0 +1,1341 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIMSON – Die Legende aus Suhl</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: #10130f;
+    color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: linear-gradient(120deg,#101510,#34491c,#101510);
+    padding: 30px 7%;
+    min-height: 390px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    z-index: 20;
+}
+
+.menu-wrap { position: relative; }
+.menu-toggle {
+    width: 48px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    background: #a8d52a;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    border-radius: 3px;
+    background: #111;
+    transition: .2s;
+}
+.menu-toggle:hover { background: #c3ef48; }
+.menu-toggle:focus-visible, .menu-panel a:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+.menu-panel {
+    display: none;
+    position: absolute;
+    top: 56px;
+    right: 0;
+    width: min(290px, 85vw);
+    padding: 10px;
+    background: #1b211a;
+    border: 1px solid #607a3b;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.45);
+}
+.menu-panel.open { display: block; }
+.menu-panel .menu-heading {
+    color: #a8d52a;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 10px 12px 8px;
+}
+.menu-panel a {
+    display: block;
+    color: #f4f4f4;
+    text-decoration: none;
+    padding: 11px 12px;
+    margin: 2px 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.menu-panel a:hover { background: #2c391e; color: #b6e34e; }
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.logo span, .hero h1 span {
+    color: #a8d52a;
+}
+
+
+.hero {
+    margin-top: 75px;
+    max-width: 800px;
+}
+
+.hero h1 {
+    font-size: clamp(42px,7vw,70px);
+    line-height: 1.05;
+}
+
+.hero p {
+    color: #ddd;
+    font-size: 18px;
+}
+
+.button {
+    display: inline-block;
+    padding: 13px 22px;
+    margin-top: 15px;
+    background: #a8d52a;
+    color: #111;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+main {
+    width: 88%;
+    max-width: 1250px;
+    margin: auto;
+}
+
+section {
+    padding: 55px 0;
+}
+
+/* Die Inhalte funktionieren wie einzelne Seiten statt als lange Scroll-Seite. */
+.page-hidden {
+    display: none !important;
+}
+.hero-hidden {
+    display: none !important;
+}
+nav {
+    position: relative;
+}
+
+
+.label {
+    color: #a8d52a;
+    letter-spacing: 3px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.description {
+    color: #bbb;
+    line-height: 1.8;
+    max-width: 850px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.stat {
+    background: #1c2419;
+    border: 1px solid #39472c;
+    padding: 23px;
+    border-radius: 8px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 30px;
+    color: #a8d52a;
+}
+
+.search {
+    width: 100%;
+    padding: 15px;
+    margin: 20px 0;
+    background: #20271d;
+    color: white;
+    border: 1px solid #607a3b;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.filters button {
+    background: #242b20;
+    color: white;
+    border: 1px solid #52633b;
+    padding: 11px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filters button:hover,
+.filters button.active {
+    background: #a8d52a;
+    color: black;
+}
+
+#resultCount {
+    color: #a8d52a;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.model-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 20px;
+}
+
+.model {
+    background: #1b211a;
+    border: 1px solid #394331;
+    border-top: 4px solid #a8d52a;
+    border-radius: 9px;
+    padding: 22px;
+    transition: .2s;
+}
+
+.model:hover {
+    transform: translateY(-3px);
+    border-color: #a8d52a;
+}
+
+.model h3 {
+    color: #a8d52a;
+    font-size: 25px;
+    margin: 8px 0;
+}
+
+.model .year {
+    color: #999;
+    font-size: 13px;
+}
+
+.type {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #2c391e;
+    color: #b6e34e;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 5px 0 15px;
+}
+
+.model p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.model h4 {
+    color: #a8d52a;
+    margin: 20px 0 5px;
+    border-bottom: 1px solid #394331;
+    padding-bottom: 6px;
+}
+
+.facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 12px;
+}
+
+.fact {
+    background: #242b20;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: #ddd;
+}
+
+.fact strong {
+    display: block;
+    color: #a8d52a;
+    margin-bottom: 3px;
+}
+
+.history {
+    border-left: 2px solid #a8d52a;
+    padding-left: 25px;
+}
+
+.history-card {
+    background: #1b211a;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 7px;
+}
+
+.history-card strong {
+    color: #a8d52a;
+    font-size: 20px;
+}
+
+.source {
+    background: #1b211a;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #394331;
+}
+
+.source a {
+    color: #a8d52a;
+    font-weight: bold;
+}
+
+.note {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.shop-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:25px; }
+.shop-card { background:#1b211a; border:1px solid #394331; border-top:4px solid #a8d52a; border-radius:9px; padding:23px; }
+.shop-card h3 { color:#a8d52a; margin-top:0; font-size:23px; }
+.shop-card p { color:#ccc; line-height:1.6; min-height:75px; }
+.shop-card a { display:inline-block; background:#a8d52a; color:#111; text-decoration:none; padding:11px 16px; border-radius:5px; font-weight:bold; }
+.shop-card a:hover { background:#c3ef48; }
+.history-intro { color:#bbb; line-height:1.8; max-width:950px; margin-bottom:25px; }
+
+footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid #394331;
+    color: #999;
+}
+
+@media(max-width:750px) {
+    .model-grid, .stats, .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        align-items: center;
+    }
+}
+
+@media(max-width:450px) {
+    .facts {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header id="start">
+<nav aria-label="Hauptnavigation">
+    <div class="logo">SIM<span>SON</span></div>
+    <div class="menu-wrap">
+        <button class="menu-toggle" id="menuToggle" type="button"
+                aria-label="Menü öffnen" aria-expanded="false" aria-controls="menuPanel"
+                onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="menu-panel" id="menuPanel">
+            <div class="menu-heading">SEITENMENÜ</div>
+            <a href="#start" onclick="navigatePage(event, 'start')">Startseite</a>
+            <a href="#geschichte" onclick="navigatePage(event, 'geschichte')">Geschichte von Simson</a>
+            <a href="#modelle" onclick="navigatePage(event, 'modelle')">Modellkatalog</a>
+            <a href="#zeitlinie" onclick="navigatePage(event, 'zeitlinie')">Historische Zeitleiste</a>
+            <a href="#shops" onclick="navigatePage(event, 'shops')">Ersatzteile &amp; Tuning-Shops</a>
+            <a href="#quelle" onclick="navigatePage(event, 'quelle')">Quellen &amp; weiterführende Infos</a>
+        </div>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="label">DIE LEGENDE AUS SUHL</div>
+    <h1>SIMSON –<br><span>Eine Legende.</span></h1>
+    <p>
+        Entdecke die Geschichte der Simson-Mopeds.
+        Von der Schwalbe über die S50 bis zur S51 Enduro.
+        Mit technischen Daten, Besonderheiten und spannenden Fakten.
+    </p>
+    <a href="#modelle" class="button" onclick="navigatePage(event, 'modelle')">Modelle entdecken ↓</a>
+</div>
+</header>
+
+<main>
+
+<section id="geschichte">
+    <div class="label">01 · GESCHICHTE</div>
+    <h2>Die Geschichte von Simson</h2>
+
+    <p class="description">
+        Simson ist weit mehr als nur eine Mopedmarke. Die Geschichte des Unternehmens aus Suhl in Thüringen
+        reicht bis ins 19. Jahrhundert zurück. Aus einer Stahl- und Waffenfabrik entwickelte sich über viele
+        politische und wirtschaftliche Umbrüche ein bedeutender Fahrzeughersteller. Besonders die Mopeds aus
+        der DDR wurden zu einem festen Bestandteil des Alltags: Sie waren vergleichsweise einfach aufgebaut,
+        reparaturfreundlich und für viele Menschen ein wichtiges Verkehrsmittel. Bis heute prägen Schwalbe,
+        S50 und S51 die deutsche Zweiradkultur.
+    </p>
+
+    <div class="stats">
+        <div class="stat"><strong>1856</strong>Gründung von Simson &amp; Co. in Suhl</div>
+        <div class="stat"><strong>1955</strong>Start der SR1-Mopedproduktion</div>
+        <div class="stat"><strong>5 Mio.+</strong>Kleinkrafträder bis 1990 laut Fahrzeugmuseum Suhl</div>
+    </div>
+
+    <h3 style="color:#a8d52a;margin-top:38px">Von der Stahlfabrik zur Fahrzeugmarke</h3>
+    <p class="history-intro">
+        Die Brüder Löb und Moses Simson erwarben 1854 einen Anteil an einem Stahlhammer in Suhl.
+        1856 wurde Simson &amp; Co. gegründet. Zunächst stellte das Unternehmen Stahl sowie später Gewehre
+        und weitere Waffen her. Im Laufe der Jahrzehnte kamen neue Geschäftsfelder hinzu: Fahrräder,
+        Automobile und schließlich Motorräder und Mopeds. Die Entwicklung war eng mit der deutschen
+        Industrie- und Zeitgeschichte verbunden.
+    </p>
+
+    <h3 style="color:#a8d52a">Die Zeit des Nationalsozialismus</h3>
+    <p class="history-intro">
+        Ein besonders dunkles Kapitel begann ab 1933. Die jüdische Unternehmerfamilie Simson wurde durch
+        die nationalsozialistische Verfolgung schrittweise aus dem Unternehmen gedrängt und 1935/1936
+        entschädigungslos enteignet. Die Familie musste Deutschland verlassen. Der Betrieb wurde in die
+        Rüstungsproduktion eingebunden. Diese Geschichte gehört ausdrücklich zur Geschichte der Marke
+        und darf bei einem Rückblick nicht ausgeblendet werden.
+    </p>
+
+    <h3 style="color:#a8d52a">Neuanfang nach dem Zweiten Weltkrieg</h3>
+    <p class="history-intro">
+        Nach dem Krieg wurde ein großer Teil der Maschinen als Reparationsleistung in die Sowjetunion
+        gebracht. Der Betrieb wurde neu organisiert. 1950 wurde das Motorrad AWO 425 vorgestellt.
+        1952 entstand der volkseigene Betrieb VEB Fahrzeug- und Gerätewerk Simson Suhl. Mit dem SR1
+        begann 1955 die erfolgreiche Mopedproduktion, die Simson später international bekannt machte.
+    </p>
+</section>
+
+<section id="modelle">
+
+    <div class="label">02 · MODELLKATALOG</div>
+    <h2>Die Simson-Modellübersicht</h2>
+
+    <p class="description">
+        Hier findest du zahlreiche Simson-Modelle und ihre technischen
+        Eigenschaften. Jedes Modell hat eigene Angaben zum Motor,
+        zur Ausstattung und zu seinen Besonderheiten.
+    </p>
+
+    <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="Modell suchen, z. B. S51, KR51/2 oder Star..."
+        oninput="filterModels()"
+    >
+
+    <div class="filters">
+        <button class="active" onclick="setFilter('Alle',this)">Alle</button>
+        <button onclick="setFilter('Moped',this)">Mopeds</button>
+        <button onclick="setFilter('Roller',this)">Roller</button>
+        <button onclick="setFilter('Motorrad',this)">Motorräder</button>
+        <button onclick="setFilter('Mofa',this)">Mofas</button>
+        <button onclick="setFilter('Dreirad',this)">Dreiräder</button>
+    </div>
+
+    <div id="resultCount"></div>
+
+    <div class="model-grid" id="modelGrid"></div>
+
+    <p class="note">
+        Hinweis: Technische Daten sind typische Serienwerte.
+        Je nach Baujahr, Motorversion, Markt und Ausstattung können
+        sie abweichen. Bei historischen Prototypen sind teilweise
+        keine vollständigen Serienangaben vorhanden.
+    </p>
+
+</section>
+
+<section id="zeitlinie">
+    <div class="label">03 · ZEITGESCHICHTE</div>
+    <h2>Wichtige Jahre</h2>
+
+    <div class="history">
+        <div class="history-card"><strong>1854</strong><p>Die Brüder Löb und Moses Simson erwerben einen Anteil an einem Stahlhammer in Suhl.</p></div>
+        <div class="history-card"><strong>1856</strong><p>Simson &amp; Co. wird gegründet. Zunächst stehen Stahlverarbeitung und Waffenherstellung im Mittelpunkt.</p></div>
+        <div class="history-card"><strong>1896</strong><p>Simson beginnt mit der Herstellung von Fahrrädern und erweitert damit sein Geschäftsfeld.</p></div>
+        <div class="history-card"><strong>1907–1911</strong><p>Der Einstieg in den Automobilbau folgt. Der Simson Supra wird später zu einem bekannten Fahrzeug der Marke.</p></div>
+        <div class="history-card"><strong>1933–1936</strong><p>Die jüdische Familie Simson wird von den Nationalsozialisten verfolgt und enteignet. Das Werk wird zunehmend für Rüstungszwecke genutzt.</p></div>
+        <div class="history-card"><strong>1950</strong><p>Die AWO 425 wird vorgestellt. Sie markiert den Neustart der motorisierten Fahrzeugproduktion nach dem Krieg.</p></div>
+        <div class="history-card"><strong>1952</strong><p>Der Betrieb wird als VEB Fahrzeug- und Gerätewerk Simson Suhl in Volkseigentum überführt.</p></div>
+        <div class="history-card"><strong>1955</strong><p>Mit dem SR1 beginnt die erfolgreiche Mopedproduktion. Das Modell wird zum Auftakt einer langen Reihe bekannter Kleinkrafträder.</p></div>
+        <div class="history-card"><strong>1957–1960</strong><p>SR2, SR2E und der Kleinroller KR50 erweitern das Programm.</p></div>
+        <div class="history-card"><strong>1964</strong><p>Die Vogelserie startet: Die Schwalbe KR51, der Spatz und der Star werden vorgestellt.</p></div>
+        <div class="history-card"><strong>1966</strong><p>Der Sperber SR4-3 ergänzt die Vogelserie mit einem fahrtwindgekühlten Motor und Vierganggetriebe.</p></div>
+        <div class="history-card"><strong>1968</strong><p>Simson wird mit dem Ernst-Thälmann-Werk zum VEB Fahrzeug- und Jagdwaffenwerk Ernst Thälmann Suhl zusammengelegt.</p></div>
+        <div class="history-card"><strong>1975</strong><p>Mit der S50 beginnt eine neue Generation der Simson-Mokicks.</p></div>
+        <div class="history-card"><strong>1980</strong><p>Die S51 geht in die Serienproduktion. Ihr neuer M531/M541-Motor wird mit Drei- oder Vierganggetriebe angeboten.</p></div>
+        <div class="history-card"><strong>1981</strong><p>Die S51 Enduro wird vorgestellt. Zu ihren Merkmalen gehören unter anderem der hochgelegte Auspuff und Enduro-Fahrwerksdetails.</p></div>
+        <div class="history-card"><strong>1986</strong><p>Die Roller SR50 und SR80 kommen in die Serienfertigung.</p></div>
+        <div class="history-card"><strong>1990–1991</strong><p>Nach der deutschen Wiedervereinigung gerät der Betrieb in wirtschaftliche Schwierigkeiten. Das Werk wird abgewickelt und liquidiert.</p></div>
+        <div class="history-card"><strong>1992</strong><p>Ehemalige Mitarbeiter nehmen die Produktion unter dem Namen Simson wieder auf. Neue Modelle sollen den Neustart sichern.</p></div>
+        <div class="history-card"><strong>1990er</strong><p>Modelle wie S53, S83 und MS50 Sperber zeigen, wie Simson versucht, sich an den neuen Markt anzupassen.</p></div>
+        <div class="history-card"><strong>2002–2003</strong><p>Das Unternehmen gerät erneut in die Insolvenz; 2002/2003 endet die Fahrzeugproduktion am Standort Suhl endgültig. Ersatzteilversorgung und Marke werden danach auf anderer Grundlage weitergeführt.</p></div>
+        <div class="history-card"><strong>Heute</strong><p>Simson-Fahrzeuge sind begehrte Klassiker. Ersatzteilhändler, Werkstätten, Clubs und private Schrauber halten die Fahrzeuge auf der Straße.</p></div>
+    </div>
+</section>
+
+<section id="shops">
+    <div class="label">04 · ERSATZTEILE &amp; TUNING</div>
+    <h2>Simson-Shops</h2>
+    <p class="description">Hier findest du drei bekannte Anlaufstellen für Ersatzteile, Zubehör und Tuning rund um Simson. Die Links führen direkt zu den jeweiligen Onlineshops.</p>
+    <div class="shop-grid">
+        <article class="shop-card">
+            <h3>AKF Shop</h3>
+            <p>Ersatzteile und Zubehör für Simson und MZ – von Motor und Elektrik bis zu Fahrwerk, Auspuff und Bekleidung.</p>
+            <a href="https://www.akf-shop.de/" target="_blank" rel="noopener noreferrer">Zum AKF Shop ↗</a>
+        </article>
+        <article class="shop-card">
+            <h3>OstOase</h3>
+            <p>Simson-Ersatzteile und Zubehör, darunter Antriebsteile, Bremsen, Elektrik, Motorenteile und Originalteile.</p>
+            <a href="https://www.ostoase.de/" target="_blank" rel="noopener noreferrer">Zur OstOase ↗</a>
+        </article>
+        <article class="shop-card">
+            <h3>ZT Tuning</h3>
+            <p>Teile für Simson-Tuning und Motoren, darunter Zylinder, Getriebeteile und weitere Komponenten.</p>
+            <a href="https://zt-tuning.de/" target="_blank" rel="noopener noreferrer">Zu ZT Tuning ↗</a>
+        </article>
+    </div>
+    <p class="note">Hinweis: Die Shops sind externe Anbieter. Prüfe vor dem Kauf immer, ob ein Teil zu deinem Modell passt und ob es eine passende ABE, ein Teilegutachten oder eine andere erforderliche Genehmigung besitzt.</p>
+</section>
+
+<section id="quelle">
+    <div class="label">05 · QUELLEN</div>
+    <h2>Mehr über Simson erfahren</h2>
+
+    <div class="source">
+        <p>
+            Weitere Informationen zur Geschichte der Marke und
+            ihrer Kultfahrzeuge findest du hier:
+        </p>
+
+        <p>
+            <a href="https://www.ndr.de/geschichte/chronologie/ein-feiertag-fuer-simson-vom-ddr-moped-zum-kult-roller,simson124.html"
+               target="_blank" rel="noopener noreferrer">
+               NDR – Vom DDR-Moped zum Kult-Roller ↗
+            </a>
+        </p>
+
+        <p>
+            <a href="https://www.mopedfreunde-oldenburg.de/html/simson_mopeds_ddr.html"
+               target="_blank" rel="noopener noreferrer">
+               Mopedfreunde Oldenburg – Simson-Modelle ↗
+            </a>
+        </p>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <strong>SIMSON – VOM DDR-MOPED ZUR LEGENDE</strong>
+    <br>
+    Eine Webseite über die Geschichte und Technik von Simson.
+    <br><br>
+    © 2026
+</footer>
+
+<script>
+
+// AUFKLAPPBARES SEITENMENÜ
+
+function toggleMenu() {
+    const panel = document.getElementById("menuPanel");
+    const button = document.getElementById("menuToggle");
+    const isOpen = panel.classList.toggle("open");
+    button.setAttribute("aria-expanded", isOpen);
+    button.setAttribute("aria-label", isOpen ? "Menü schließen" : "Menü öffnen");
+}
+
+function closeMenu() {
+    const panel = document.getElementById("menuPanel");
+    const button = document.getElementById("menuToggle");
+    panel.classList.remove("open");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Menü öffnen");
+}
+
+// Wechselt zwischen den Inhaltsseiten, ohne dass man durch die Website scrollen muss.
+function navigatePage(event, pageId) {
+    if (event) event.preventDefault();
+
+    const hero = document.querySelector(".hero");
+    const sections = document.querySelectorAll("main > section");
+
+    // Startseite zeigt nur den Begrüßungsbereich.
+    if (pageId === "start") {
+        hero.classList.remove("hero-hidden");
+        sections.forEach(section => section.classList.add("page-hidden"));
+    } else {
+        hero.classList.add("hero-hidden");
+        sections.forEach(section => {
+            section.classList.toggle("page-hidden", section.id !== pageId);
+        });
+    }
+
+    closeMenu();
+    history.replaceState(null, "", "#" + pageId);
+    window.scrollTo({ top: 0, behavior: "instant" });
+}
+
+document.addEventListener("click", function(event) {
+    const menu = document.querySelector(".menu-wrap");
+    if (!menu.contains(event.target)) closeMenu();
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closeMenu();
+});
+
+// MODELLE UND TECHNISCHE DATEN
+
+const models = [
+
+{
+name:"Simson SR1",
+year:"1955–1957",
+category:"Moped",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"47,6 cm³",
+power:"1,5 PS",
+cooling:"Luftgekühlt",
+gears:"2 Gänge",
+speed:"ca. 45 km/h",
+special:"Das erste bekannte Simson-Moped. Es besaß Pedale und eine einfache Rahmenkonstruktion.",
+facts:"Frühes DDR-Moped | Tretkurbeln | Klassisches Design"
+},
+
+{
+name:"Simson SR2",
+year:"1957–1959",
+category:"Moped",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"47,6 cm³",
+power:"1,5 PS",
+cooling:"Luftgekühlt",
+gears:"2 Gänge",
+speed:"ca. 45 km/h",
+special:"Weiterentwicklung des SR1 mit verbessertem Rahmen und überarbeiteter Federung.",
+facts:"Nachfolger des SR1 | Pedalstart | Kleine Räder"
+},
+
+{
+name:"Simson SR2E",
+year:"1959–1964",
+category:"Moped",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"47,6 cm³",
+power:"ca. 1,5 PS",
+cooling:"Luftgekühlt",
+gears:"2 Gänge",
+speed:"ca. 45 km/h",
+special:"Letzte und weiterentwickelte Version der SR2-Baureihe.",
+facts:"Verbesserte Ausstattung | Klassischer Rahmen"
+},
+
+{
+name:"Simson KR50",
+year:"1958–1964",
+category:"Roller",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"47,6 cm³",
+power:"ca. 2 PS",
+cooling:"Gebläsekühlung",
+gears:"2 Gänge",
+speed:"ca. 50 km/h",
+special:"Vorläufer der Schwalbe mit verkleideter Karosserie.",
+facts:"Roller-Vorläufer | Wetterschutz | Geschlossene Bauweise"
+},
+
+{
+name:"Simson Spatz SR4-1",
+year:"1964–1970",
+category:"Moped",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"49,6 cm³",
+power:"ca. 2,0 PS",
+cooling:"Luftgekühlt",
+gears:"3 Gänge",
+speed:"ca. 50 km/h",
+special:"Kleines Modell der Vogelserie. Die genaue Ausführung ist bei den Motorvarianten zu beachten.",
+facts:"Vogelserie | Leichtes Fahrzeug | Einsitzer"
+},
+
+{
+name:"Simson Star SR4-2",
+year:"1964–1975",
+category:"Moped",
+engine:"M53/1 KFR, Zweitaktmotor",
+cc:"49,6 cm³",
+power:"ca. 3,4 PS",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"ca. 60 km/h",
+special:"Beliebtes Modell mit bequemer Sitzbank und charakteristischer Vogelserie-Karosserie.",
+facts:"Zweisitzer | Gebläsekühlung | Vogelserie"
+},
+
+{
+name:"Simson Sperber SR4-3",
+year:"1966–1972",
+category:"Moped",
+engine:"M54, Zweitaktmotor",
+cc:"49,6 cm³",
+power:"ca. 4,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"ca. 75 km/h",
+special:"Sportliches Modell der Vogelserie. In der DDR wurde es als Kleinkraftrad eingestuft.",
+facts:"Vierganggetriebe | Sportlicher Motor | Höhere Geschwindigkeit"
+},
+
+{
+name:"Simson Habicht SR4-4",
+year:"1971–1975",
+category:"Moped",
+engine:"M54, Zweitaktmotor",
+cc:"49,6 cm³",
+power:"ca. 3,4 PS",
+cooling:"Gebläsekühlung",
+gears:"4 Gänge",
+speed:"ca. 60 km/h",
+special:"Verbindet die Optik des Star mit einem Vierganggetriebe.",
+facts:"Vogelserie | Vierganggetriebe | Zweisitzer"
+},
+
+{
+name:"Schwalbe KR51",
+year:"1964–1968",
+category:"Roller",
+engine:"M53, Zweitaktmotor",
+cc:"49,6 cm³",
+power:"ca. 3,4 PS",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"ca. 60 km/h",
+special:"Erste Schwalbe-Generation mit markantem Blechkleid und Wetterschutz.",
+facts:"Vogelserie | Beinschutz | Zweisitzer"
+},
+
+{
+name:"Schwalbe KR51/1",
+year:"1968–1980",
+category:"Roller",
+engine:"M53/1 KFR",
+cc:"49,6 cm³",
+power:"ca. 3,4 PS",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"ca. 60 km/h",
+special:"Überarbeitete Schwalbe mit verbessertem Motor und Fahrkomfort.",
+facts:"Verbesserter Motor | Klassisches Design | Zweisitzer"
+},
+
+{
+name:"Schwalbe KR51/1 S",
+year:"1968–1980",
+category:"Roller",
+engine:"M53/1 KFR",
+cc:"49,6 cm³",
+power:"ca. 3,4 PS",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"ca. 60 km/h",
+special:"Besitzt eine halbautomatische Fliehkraftkupplung.",
+facts:"Halbautomatik | Keine normale Handkupplung | Komfortversion"
+},
+
+{
+name:"Schwalbe KR51/2 N",
+year:"1979–1986",
+category:"Roller",
+engine:"M531",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Grundversion der zweiten Schwalbe-Generation mit neuem Motor.",
+facts:"M5xx-Motor | Drei Gänge | Einfachere Ausstattung"
+},
+
+{
+name:"Schwalbe KR51/2 E",
+year:"1979–1986",
+category:"Roller",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Gebläsekühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Vierganggetriebe und überarbeitete technische Ausstattung.",
+facts:"Vierganggetriebe | Zweite Schwalbe-Generation"
+},
+
+{
+name:"Schwalbe KR51/2 L",
+year:"1979–1986",
+category:"Roller",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Gebläsekühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Hochwertigste Ausführung der KR51/2 mit elektronischer Zündung.",
+facts:"Elektronische Zündung | Vier Gänge | Beliebte Luxusausführung"
+},
+
+{
+name:"Simson S50 N",
+year:"1975–1980",
+category:"Moped",
+engine:"M53/2 KF",
+cc:"49,6 cm³",
+power:"ca. 3,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Einfache Grundausführung der S50 mit reduzierter elektrischer Ausstattung.",
+facts:"Keine Blinker ab Werk | Dreiganggetriebe | Klassisches Mokick"
+},
+
+{
+name:"Simson S50 B",
+year:"1975–1980",
+category:"Moped",
+engine:"M53/2 KF",
+cc:"49,6 cm³",
+power:"ca. 3,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Mit Blinkern und entsprechender elektrischer Ausstattung.",
+facts:"Blinker | 6-Volt-Anlage | Drei Gänge"
+},
+
+{
+name:"Simson S50 B1",
+year:"1975–1980",
+category:"Moped",
+engine:"M53/2 KF",
+cc:"49,6 cm³",
+power:"ca. 3,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Weiter ausgestattete Version mit Batterie und Blinkern.",
+facts:"Blinker | Batteriezündung | Dreiganggetriebe"
+},
+
+{
+name:"Simson S50 B2",
+year:"1975–1980",
+category:"Moped",
+engine:"M53/2 KF",
+cc:"49,6 cm³",
+power:"ca. 3,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Besitzt eine elektronische Zündanlage.",
+facts:"Elektronische Zündung | Drei Gänge | 6-Volt-Anlage"
+},
+
+{
+name:"Simson S51 N",
+year:"1980–1989",
+category:"Moped",
+engine:"M531",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Einfaches Grundmodell der S51 ohne umfangreiche elektrische Ausstattung.",
+facts:"Dreiganggetriebe | Einfache Elektrik | Klassisches Design"
+},
+
+{
+name:"Simson S51 B1-3",
+year:"1980–1989",
+category:"Moped",
+engine:"M531",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Beliebte Basisausführung mit Blinkern und Dreiganggetriebe.",
+facts:"Blinker | Drei Gänge | 6-Volt-Elektrik"
+},
+
+{
+name:"Simson S51 B1-4",
+year:"1980–1989",
+category:"Moped",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Viergangversion mit klassischer Unterbrecherzündung.",
+facts:"Vierganggetriebe | Blinker | Unterbrecherzündung"
+},
+
+{
+name:"Simson S51 B2-4",
+year:"1980–1989",
+category:"Moped",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Viergangmodell mit elektronischer Zündung.",
+facts:"Elektronische Zündung | Vier Gänge | 6-Volt-Anlage"
+},
+
+{
+name:"Simson S51 C",
+year:"1980–1989",
+category:"Moped",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Comfort-Ausführung mit zusätzlicher Ausstattung und elektronischer Zündung.",
+facts:"Comfort-Modell | Vier Gänge | Elektronische Zündung"
+},
+
+{
+name:"Simson S51 E",
+year:"1980–1989",
+category:"Moped",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Enduroversion mit hochgelegtem Auspuff, verstärktem Rahmen und Enduro-Lenker.",
+facts:"Enduro-Rahmen | Hochgelegter Auspuff | Vier Gänge"
+},
+
+{
+name:"Simson S70 C",
+year:"1983–1989",
+category:"Motorrad",
+engine:"M741, Zweitaktmotor",
+cc:"69,9 cm³",
+power:"ca. 5,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"ca. 75 km/h",
+special:"70-cm³-Version mit sportlicher Ausstattung.",
+facts:"70 cm³ | Vierganggetriebe | Größerer Motor"
+},
+
+{
+name:"Simson S70 E",
+year:"1983–1989",
+category:"Motorrad",
+engine:"M741",
+cc:"69,9 cm³",
+power:"ca. 5,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"ca. 75 km/h",
+special:"Enduroausführung der S70 mit Geländemerkmalen.",
+facts:"Enduro | 70 cm³ | Hochgelegter Auspuff"
+},
+
+{
+name:"Simson SR50 N",
+year:"1986–1990",
+category:"Roller",
+engine:"M531",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Grundversion des neuen Simson-Rollers mit modernerer Karosserie.",
+facts:"Roller | Beinschutz | Dreiganggetriebe"
+},
+
+{
+name:"Simson SR50 B3",
+year:"1986–1990",
+category:"Roller",
+engine:"M531",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Roller mit Blinkern und Dreiganggetriebe.",
+facts:"Blinker | Drei Gänge | 6-Volt-Elektrik"
+},
+
+{
+name:"Simson SR50 B4",
+year:"1986–1990",
+category:"Roller",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Viergangversion des SR50.",
+facts:"Vier Gänge | Blinker | Rollerbauweise"
+},
+
+{
+name:"Simson SR50 C",
+year:"1986–1990",
+category:"Roller",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Komfortausführung mit erweiterter elektrischer Ausstattung.",
+facts:"Comfort | Vierganggetriebe | Elektronische Zündung"
+},
+
+{
+name:"Simson SR80",
+year:"1986–1990",
+category:"Roller",
+engine:"M742",
+cc:"69,9 cm³",
+power:"ca. 5,6 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"ca. 75 km/h",
+special:"80er-Roller mit größerem Hubraum und stärkerem Motor.",
+facts:"70 cm³ | Vierganggetriebe | Roller"
+},
+
+{
+name:"Simson SL1",
+year:"1970–1972",
+category:"Mofa",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"49,6 cm³",
+power:"ca. 1,0 PS",
+cooling:"Luftgekühlt",
+gears:"Automatik",
+speed:"ca. 30 km/h",
+special:"Einfaches Mofa mit Pedalen und automatischer Kraftübertragung.",
+facts:"Mofa | Pedale | Einfache Technik"
+},
+
+{
+name:"Simson DUO 4/1",
+year:"1973–1981",
+category:"Dreirad",
+engine:"M53/11 AR",
+cc:"49,6 cm³",
+power:"ca. 3,4 PS",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"60 km/h",
+special:"Dreirädriges Fahrzeug mit Wetterschutz und Platz für zwei Personen.",
+facts:"Drei Räder | Lenkersteuerung | Wetterschutz"
+},
+
+{
+name:"Simson DUO 4/2",
+year:"1981–1991",
+category:"Dreirad",
+engine:"M541",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Gebläsekühlung",
+gears:"4 Gänge",
+speed:"60 km/h",
+special:"Weiterentwicklung des DUO mit verbessertem Motor und Vierganggetriebe.",
+facts:"Drei Räder | Vier Gänge | Zweisitzer"
+},
+
+{
+name:"Simson S53",
+year:"1990er",
+category:"Moped",
+engine:"M543",
+cc:"49,8 cm³",
+power:"ca. 3,7 PS",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"50 km/h",
+special:"Nachfolger der S51 mit modernisierter Optik und veränderter Ausstattung.",
+facts:"Nachwendemodell | Modernisierte Optik"
+},
+
+{
+name:"Simson S53 Enduro",
+year:"1990er",
+category:"Moped",
+engine:"M543",
+cc:"49,8 cm³",
+power:"je nach Ausführung",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"je nach Ausführung",
+special:"Geländeorientierte Variante mit Enduro-Elementen.",
+facts:"Enduro | Nachwendemodell | S53-Baureihe"
+},
+
+{
+name:"Simson S83",
+year:"1990er",
+category:"Motorrad",
+engine:"M743",
+cc:"69,9 cm³",
+power:"je nach Ausführung",
+cooling:"Fahrtwindkühlung",
+gears:"4 Gänge",
+speed:"je nach Ausführung",
+special:"Größere Hubraumversion der S53-Baureihe.",
+facts:"70 cm³ | Nachwendemodell"
+},
+
+{
+name:"Simson MS50 Sperber",
+year:"1990er",
+category:"Motorrad",
+engine:"Einzylinder-Zweitaktmotor",
+cc:"49,8 cm³",
+power:"ca. 5 PS",
+cooling:"Fahrtwindkühlung",
+gears:"5 Gänge",
+speed:"ca. 75 km/h",
+special:"Sportliches Nachwendemodell mit fünf Gängen.",
+facts:"Fünfganggetriebe | Sportliches Design"
+},
+
+{
+name:"Simson SD50 Albatros",
+year:"1990er",
+category:"Dreirad",
+engine:"Simson-Zweitaktmotor",
+cc:"49,8 cm³",
+power:"je nach Version",
+cooling:"Gebläsekühlung",
+gears:"3 Gänge",
+speed:"je nach Version",
+special:"Dreirädriger Lastenroller mit Ladefläche.",
+facts:"Nutzfahrzeug | Ladefläche | Drei Räder"
+},
+
+{
+name:"Simson KR52",
+year:"Entwicklungsprojekt",
+category:"Roller",
+engine:"Nicht einheitlich dokumentiert",
+cc:"Nicht gesichert",
+power:"Nicht gesichert",
+cooling:"Nicht gesichert",
+gears:"Nicht gesichert",
+speed:"Nicht gesichert",
+special:"Geplante Weiterentwicklung der Schwalbe, die nicht in Serienproduktion ging.",
+facts:"Entwicklungsprojekt | Kein reguläres Serienmodell"
+}
+
+];
+
+
+// MODELLKARTEN ERSTELLEN
+
+let currentFilter = "Alle";
+
+function createModels() {
+
+    const grid = document.getElementById("modelGrid");
+
+    grid.innerHTML = "";
+
+    models.forEach(model => {
+
+        const card = document.createElement("article");
+        card.className = "model";
+        card.dataset.category = model.category;
+
+        card.innerHTML = `
+            <div class="year">${model.year}</div>
+
+            <h3>${model.name}</h3>
+
+            <span class="type">${model.category}</span>
+
+            <h4>Motordaten</h4>
+
+            <div class="facts">
+                <div class="fact">
+                    <strong>Motor</strong>
+                    ${model.engine}
+                </div>
+
+                <div class="fact">
+                    <strong>Hubraum</strong>
+                    ${model.cc}
+                </div>
+
+                <div class="fact">
+                    <strong>Leistung</strong>
+                    ${model.power}
+                </div>
+
+                <div class="fact">
+                    <strong>Kühlung</strong>
+                    ${model.cooling}
+                </div>
+
+                <div class="fact">
+                    <strong>Getriebe</strong>
+                    ${model.gears}
+                </div>
+
+                <div class="fact">
+                    <strong>Geschwindigkeit</strong>
+                    ${model.speed}
+                </div>
+            </div>
+
+            <h4>Besonderheiten</h4>
+            <p>${model.special}</p>
+
+            <h4>Weitere Fakten</h4>
+            <p>${model.facts}</p>
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+    filterModels();
+}
+
+
+// SUCHFUNKTION UND FILTER
+
+function setFilter(category, button) {
+
+    currentFilter = category;
+
+    document.querySelectorAll(".filters button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    filterModels();
+}
+
+function filterModels() {
+
+    const search = document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+    const cards = document.querySelectorAll(".model");
+
+    let count = 0;
+
+    cards.forEach(card => {
+
+        const text = card.innerText.toLowerCase();
+
+        const category = card.dataset.category;
+
+        const matchesSearch = text.includes(search);
+
+        const matchesCategory =
+            currentFilter === "Alle" ||
+            category === currentFilter;
+
+        if (matchesSearch && matchesCategory) {
+
+            card.style.display = "block";
+            count++;
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+    document.getElementById("resultCount").innerText =
+        count + " Modelle gefunden";
+
+}
+
+createModels();
+
+// Beim Laden immer auf der Startseite beginnen.
+navigatePage(null, "start");
+
+</script>
+
+</body>
+</html>
